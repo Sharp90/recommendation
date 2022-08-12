@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def gp_ucb(D, sigma_zero, ker_mode, beta):
+def gp_ucb(D, T, sigma_zero, ker_mode, beta):
     mu = 0
     sigma = sigma_zero
     cul_reg = 0
@@ -20,8 +20,6 @@ def gp_ucb(D, sigma_zero, ker_mode, beta):
     else:
         exit(1)
         
-    while(1):
-        if t != 1:
-            mu = 
-            sigma = 
+    for i in range(0, T):
+        
         
