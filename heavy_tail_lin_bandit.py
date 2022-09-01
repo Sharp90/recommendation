@@ -238,7 +238,7 @@ def SupHvyLinBandit(D, get_mean, get_observation, method="proof", S=1., lamb=1.,
                 Psi_t_s[s].append(t)
             else:
                 Bmax = np.max(np.nan_to_num(rhat[action_set]+w[action_set], copy=False))
-                action_set = [a for a in action_set if rhat[a]+w[a] > Bmax - 2**(-s)]
+                action_set = [a for a in action_set if rhat[a]+w[a] > Bmax - 2**(1-s)]
                 s += 1
                 
                 if s >= N_stage:
