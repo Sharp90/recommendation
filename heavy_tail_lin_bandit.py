@@ -231,13 +231,13 @@ def SupHvyLinBandit(D, get_mean, get_observation, method="proof", S=1., lamb=1.,
                 rhat, w = bmm(Dt, x[Psi_t_s[s]], y[Psi_t_s[s]], alpha=alpha_t, lamb=lamb)
                 
             if np.all(w[action_set] <= 1/np.sqrt(T)):
-                a = np.argmax(np.nan_to_num(rhat[action_set]+w[action_set], copy=False))
+                a = np.argmax(rhat[action_set]+w[action_set], copy=False)
             elif np.any(w[action_set] > 2**(-(s+1))):
                 candidates, = np.where(w[action_set] > 2**(-(s+1)))
                 a = action_set[candidates[0]]
                 Psi_t_s[s].append(t)
             else:
-                Bmax = np.max(np.nan_to_num(rhat[action_set]+w[action_set], copy=False))
+                Bmax = np.max(rhat[action_set]+w[action_set], copy=False)
                 action_set = [a for a in action_set if rhat[a]+w[a] > Bmax - 2**(1-s)]
                 s += 1
                 
