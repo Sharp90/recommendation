@@ -145,7 +145,11 @@ def pro(D, X, Y, p, beta=1., S=1., lamb=1., nu=1.):
     h = D.dot(Ainv.dot(X.T))
     thrs = beta*np.sum(np.abs(h)**p,axis=1,keepdims=True)**(1./p)
     
-    c = h*Y / thrs    
+    if 0 in thrs:
+        c = h*Y / thrs
+        np.nan_to_num(c, copy=False)
+    else:
+        c = h*Y / thrs   
     d = _cal_psi(c, p)    
     rhat = np.sum(thrs*d,axis=1)
     
@@ -231,13 +235,13 @@ def SupHvyLinBandit(D, get_mean, get_observation, method="proof", S=1., lamb=1.,
                 rhat, w = bmm(Dt, x[Psi_t_s[s]], y[Psi_t_s[s]], alpha=alpha_t, lamb=lamb)
                 
             if np.all(w[action_set] <= 1/np.sqrt(T)):
-                a = np.argmax(rhat[action_set]+w[action_set], copy=False)
+                a = np.argmax(rhat[action_set]+w[action_set])
             elif np.any(w[action_set] > 2**(-(s+1))):
                 candidates, = np.where(w[action_set] > 2**(-(s+1)))
                 a = action_set[candidates[0]]
                 Psi_t_s[s].append(t)
             else:
-                Bmax = np.max(rhat[action_set]+w[action_set], copy=False)
+                Bmax = np.max(rhat[action_set]+w[action_set])
                 action_set = [a for a in action_set if rhat[a]+w[a] > Bmax - 2**(1-s)]
                 s += 1
                 
