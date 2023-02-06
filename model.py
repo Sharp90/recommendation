@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> e6e719a5a58de321d74e178d5a415e91c44df249
 import torch.nn as nn
 from torch.autograd import Variable
 
@@ -62,7 +65,8 @@ class CNN(nn.Module):
 
         # classifier
         x = x.view(x.size(0), -1)
-        #x = self.dropout(x)
+        # x = self.dropout(x)
+        x = self.dropout(x)
         logit = nn.Sigmoid()(self.dense(x))
 
         return logit
