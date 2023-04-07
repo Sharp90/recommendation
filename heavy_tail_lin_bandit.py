@@ -186,7 +186,7 @@ def bmm(D, X, Y, alpha=1., lamb=1.):
     
     return rhat, w    
 
-def SupHvyLinBandit(D, get_mean, get_observation, method="proof", S=1., lamb=1., delta=0.01, nu = 1., p=1.5 ):
+def SupHvyLinBandit(D, get_mean, get_observation, method="proof", S=1., lamb=1., delta=0.01, nu = 1., p=1.5, alpha=1):
     T, K, d=D.shape
     if method in "proof":
         k = 1
@@ -217,11 +217,11 @@ def SupHvyLinBandit(D, get_mean, get_observation, method="proof", S=1., lamb=1.,
         Rt = get_mean(Dt, t)
 
         if method in "btc":
-            alpha_t = (2./3.*np.log(2*T*K*np.log(T)/delta)+np.sqrt(2*np.log(2*T*K*np.log(T)/delta)*nu) + nu)*t**((2.-p)/(2.*p))
+            alpha_t = alpha * (2./3.*np.log(2*T*K*np.log(T)/delta)+np.sqrt(2*np.log(2*T*K*np.log(T)/delta)*nu) + nu)*t**((2.-p)/(2.*p))
         elif method in "proof":
-            alpha_t = T**((2.-p)/(2.*p))*np.log(2*T*K/delta)**(-1./p)
+            alpha_t = alpha * T**((2.-p)/(2.*p))*np.log(2*T*K/delta)**(-1./p)
         elif method in "bmm":
-            alpha_t = (12.*nu)**(1/p)*t**((2.-p)/(2.*p))
+            alpha_t = alpha * (12.*nu)**(1/p)*t**((2.-p)/(2.*p))
 
         s=0
         action_set=list(range(K))
